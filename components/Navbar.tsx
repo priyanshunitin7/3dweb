@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+
 
 export default function Navbar() {
   return (
@@ -14,12 +14,12 @@ export default function Navbar() {
       className="fixed top-8 left-0 right-0 z-50 w-full flex justify-center pointer-events-none px-4"
     >
       <div className="w-full max-w-6xl flex items-center justify-between p-3 px-6 rounded-full border border-white/5 bg-black/50 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] pointer-events-auto relative overflow-hidden group">
-        
+
         {/* Light tracking sweep on hover */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms] ease-in-out" />
 
         {/* Brand Logo */}
-        <motion.div 
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-3 relative z-10"
@@ -29,7 +29,7 @@ export default function Navbar() {
           </div>
           <Link href="/" className="text-xl font-bold tracking-tight text-white drop-shadow-sm">CvDekho</Link>
         </motion.div>
-        
+
         {/* Animated Links Area */}
         <div className="hidden lg:block relative z-10">
           <NavLinks />
@@ -41,7 +41,7 @@ export default function Navbar() {
             href="/lets-talk"
             className="hidden sm:inline-flex text-sm font-medium text-neutral-400 hover:text-white transition-colors relative group/link"
           >
-            Let's Talk
+            Let&apos;s Talk
             <span className="absolute -bottom-1 left-0 right-0 h-[1px] bg-white scale-x-0 group-hover/link:scale-x-100 transition-transform origin-left duration-300" />
           </Link>
 
@@ -65,7 +65,7 @@ export default function Navbar() {
 
 function NavLinks() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
+
   const links = [
     { name: "Features", href: "/#features" },
     { name: "How It Works", href: "/#how-it-works" }
@@ -74,15 +74,15 @@ function NavLinks() {
   return (
     <div className="flex items-center gap-3">
       {links.map((link, i) => (
-        <Link 
-          key={i} 
+        <Link
+          key={i}
           href={link.href}
           onMouseEnter={() => setHoveredIndex(i)}
           onMouseLeave={() => setHoveredIndex(null)}
           className="relative px-6 py-2.5 text-sm font-semibold text-neutral-400 hover:text-white transition-colors"
         >
           {hoveredIndex === i && (
-            <motion.div 
+            <motion.div
               layoutId="nav-highlight"
               className="absolute inset-0 bg-white/10 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] -z-10"
               transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
