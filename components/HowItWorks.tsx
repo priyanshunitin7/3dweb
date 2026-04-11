@@ -1,18 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { UploadCloud, Target, Sparkles, ArrowRight } from "lucide-react";
-import { useRef } from "react";
 
 export default function HowItWorks() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const yTransform = useTransform(scrollYProgress, [0, 1], [50, -50]);
-
   const steps = [
     {
       num: "01",
@@ -35,17 +26,15 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-40 bg-transparent border-t border-white/5 relative overflow-hidden" ref={containerRef}>
+    <section id="how-it-works" className="py-40 bg-transparent border-t border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-20 items-center perspective-[1000px]">
+        <div className="flex flex-col lg:flex-row gap-20 items-center">
           
-          <motion.div 
-            className="w-full lg:w-1/2"
-            style={{ y: yTransform }}
-          >
+          {/* LEFT — static, no scroll transform */}
+          <div className="w-full lg:w-1/2">
             <motion.div
-              initial={{ opacity: 0, x: -50, rotateY: -10 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
@@ -57,29 +46,28 @@ export default function HowItWorks() {
               </p>
               
               <motion.button
-                whileHover={{ scale: 1.05, gap: "12px" }}
+                whileHover={{ scale: 1.05 }}
                 className="flex items-center gap-2 text-white font-semibold group"
               >
                 Learn more about our engine
                 <ArrowRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </motion.button>
             </motion.div>
-          </motion.div>
+          </div>
 
+          {/* RIGHT — steps */}
           <div className="w-full lg:w-1/2">
-            <div className="space-y-6 lg:space-y-10" style={{ perspective: "1000px" }}>
+            <div className="space-y-6 lg:space-y-10">
               {steps.map((step, index) => (
                 <motion.div 
                   key={index} 
-                  initial={{ opacity: 0, x: 50, rotateX: 10 }}
-                  whileInView={{ opacity: 1, x: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   whileHover={{ 
                     scale: 1.02, 
-                    x: -10, 
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)",
-                    backgroundColor: "rgba(255,255,255,0.05)"
+                    x: -8,
                   }}
                   className="flex gap-6 relative group p-6 rounded-3xl border border-transparent hover:border-white/10 transition-colors backdrop-blur-sm"
                 >
@@ -104,7 +92,7 @@ export default function HowItWorks() {
         </div>
       </div>
       
-      {/* Decorative architectural grid */}
+      {/* Decorative grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
     </section>
   );

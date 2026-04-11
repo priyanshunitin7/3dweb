@@ -58,12 +58,9 @@ export default function Features() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
               whileHover={{ 
-                scale: 1.05,
-                rotateX: 10,
-                rotateY: -10,
-                z: 50,
-                boxShadow: "0 30px 60px -12px rgba(0,0,0,1), inset 0 1px 1px rgba(255,255,255,0.3), inset 0 -4px 12px rgba(0,0,0,0.8)",
-              }}
+  scale: 1.03,
+  boxShadow: "0 30px 60px -12px rgba(0,0,0,1), inset 0 1px 1px rgba(255,255,255,0.3)",
+}}
               className="bg-neutral-950/80 border border-white/10 rounded-3xl p-8 relative group cursor-pointer backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)]"
               style={{ transformStyle: "preserve-3d" }}
             >

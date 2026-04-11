@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { useEffect, useRef} from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
   ssr: false,
@@ -10,24 +10,27 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
 
 export default function Hero() {
   const splineRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);  // track visibility
+
+  // Unload Spline when scrolled away
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    if (splineRef.current) observer.observe(splineRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    
-    // Globally capture wheel/touch events before Spline's internal camera logic intercepts them.
     const handleScrollCapture = () => {
       if (splineRef.current && splineRef.current.style.pointerEvents !== "none") {
-        // Instantly disable pointers on the Spline canvas so the browser natively hands 
-        // the scroll velocity directly over to the Lenis smoothing engine without hesitation.
         splineRef.current.style.pointerEvents = "none";
       }
-      
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        // Restore fully interactive 3D physics 150ms after scrolling stops
-        if (splineRef.current) {
-          splineRef.current.style.pointerEvents = "auto";
-        }
+        if (splineRef.current) splineRef.current.style.pointerEvents = "auto";
       }, 150);
     };
 
@@ -44,18 +47,20 @@ export default function Hero() {
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden">
 
-      {/* Dynamic Event Wrapper */}
+      {/* Spline only renders when hero is visible */}
       <div ref={splineRef} className="absolute inset-0">
-        <Spline
-          scene="https://prod.spline.design/byLS30jKxiXDt4YT/scene.splinecode"
-          style={{ width: "100%", height: "100%" }}
-        />
+        {isVisible && (
+          <Spline
+            scene="https://prod.spline.design/byLS30jKxiXDt4YT/scene.splinecode"
+            style={{ width: "100%", height: "100%" }}
+          />
+        )}
       </div>
 
       {/* 3D Premium Button */}
       <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10" style={{ perspective: "1000px" }}>
         <motion.button
-          onClick={() => {/* your route */ }}
+          onClick={() => {}}
           whileHover={{ 
             scale: 1.05, 
             rotateX: 12,
@@ -76,12 +81,8 @@ export default function Hero() {
         >
           <span className="relative z-10 flex items-center gap-3 drop-shadow-lg text-white">
             Get started
-            <span className="group-hover:translate-x-1 transition-transform duration-300">
-              →
-            </span>
+            <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
           </span>
-
-          {/* Shine Sweep Effect */}
           <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out pointer-events-none">
             <div className="w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
           </div>
