@@ -56,12 +56,12 @@ export default function LetsTalk() {
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white mb-5">
-              Let's build<br />
+              Let&apos;s build<br />
               <span className="text-white/35">the future.</span>
             </h1>
 
             <p className="text-[15px] text-white/40 leading-relaxed mb-12 max-w-sm font-normal">
-              Tell us where you're headed. We'll help you get there faster.
+              Tell us where you&apos;re headed. We&apos;ll help you get there faster.
             </p>
           </motion.div>
 
