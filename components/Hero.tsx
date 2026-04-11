@@ -1,8 +1,12 @@
 "use client";
 
-import Spline from "@splinetool/react-spline";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+});
 
 export default function Hero() {
   const splineRef = useRef<HTMLDivElement>(null);
