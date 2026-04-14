@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, AnimatePresence } from "framer-motion";
+import { motion, useAnimation} from "framer-motion";
 import * as THREE from "three";
 
 // ─── Three.js woven particle canvas (light-theme, brand colours) ─────────────
@@ -595,7 +595,7 @@ export default function Hero() {
             }}
           >
             <span style={{ color: "#22c55e", fontSize: 14 }}>✓</span>
-            No sign-up needed · Free forever
+             sign-up needed · Free forever
           </div>
         </motion.div>
       </div>

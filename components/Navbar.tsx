@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 // ─── Logo image (your actual CVDekho logo) ────────────────────────────────────
 const LOGO_SRC = "/logo.png"; // Place your logo PNG in /public/logo.png
@@ -490,14 +491,17 @@ export default function Navbar() {
               >
                 <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                   {/* Actual CVDekho logo */}
-                  <img
+                  <Image
                     src={LOGO_SRC}
                     alt="CVDekho — Instant Resume Scoring using AI"
+                    width={120}
+                    height={40}
+                    priority
                     style={{
                       height: 40,
                       width: "auto",
                       objectFit: "contain",
-                      display: "block",
+                      
                       // Crop out the white background edges slightly
                       filter: "drop-shadow(0 1px 3px rgba(26,31,60,0.08))",
                     }}
