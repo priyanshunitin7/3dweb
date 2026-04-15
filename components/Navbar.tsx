@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { name: "Features",     href: "/#features" },
   { name: "How It Works", href: "/#how-it-works" },
   
-  { name: "Blog",         href: "/blog" },
+  
 ];
 
 // ─── Animated nav link with orange underline sweep ───────────────────────────
@@ -106,7 +106,7 @@ function NavCTA({ compact = false }: { compact?: boolean }) {
       transition={{ type: "spring", stiffness: 400, damping: 22 }}
     >
       <Link
-        href="/#get-started"
+        href="/analyze"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -289,7 +289,7 @@ function MobileMenu({
                 Sign In
               </Link>
               <Link
-                href="/#get-started"
+                href="/analyze"
                 onClick={onClose}
                 style={{
                   display: "block",

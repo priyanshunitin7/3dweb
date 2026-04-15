@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation} from "framer-motion";
 import * as THREE from "three";
+import Link from "next/link";
 
 // ─── Three.js woven particle canvas (light-theme, brand colours) ─────────────
 function WovenCanvas() {
@@ -173,69 +174,82 @@ function WovenCanvas() {
 }
 
 // ─── Premium CTA Button ───────────────────────────────────────────────────────
+
 function PremiumCTAButton() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.button
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      whileHover={{ scale: 1.03, y: -3 }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ type: "spring", stiffness: 400, damping: 20 }}
-      style={{
-        position: "relative",
-        padding: "16px 40px",
-        background: "linear-gradient(135deg, #e85d1e 0%, #ff7c3a 60%, #f5a623 100%)",
-        color: "#fff",
-        fontSize: 14,
-        fontWeight: 800,
-        letterSpacing: "0.08em",
-        textTransform: "uppercase",
-        border: "none",
-        borderRadius: 99,
-        cursor: "pointer",
-        overflow: "hidden",
-        boxShadow: hovered
-          ? "0 20px 50px rgba(232,93,30,0.55), 0 0 0 1px rgba(255,255,255,0.15) inset, 0 1px 0 rgba(255,255,255,0.3) inset"
-          : "0 10px 32px rgba(232,93,30,0.38), 0 0 0 1px rgba(255,255,255,0.1) inset, 0 1px 0 rgba(255,255,255,0.25) inset",
-        transition: "box-shadow 0.3s ease",
-      }}
-    >
-      {/* Shimmer sweep */}
-      <motion.div
-        animate={hovered ? { x: ["−150%", "200%"] } : { x: "-150%" }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+    <Link href="/analyze">
+      <motion.button
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
+        whileHover={{ scale: 1.03, y: -3 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
         style={{
-          position: "absolute",
-          inset: 0,
-          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
-          transform: "skewX(-20deg)",
-          pointerEvents: "none",
+          position: "relative",
+          padding: "16px 40px",
+          background: "linear-gradient(135deg, #e85d1e 0%, #ff7c3a 60%, #f5a623 100%)",
+          color: "#fff",
+          fontSize: 14,
+          fontWeight: 800,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          border: "none",
+          borderRadius: 99,
+          cursor: "pointer",
+          overflow: "hidden",
+          boxShadow: hovered
+            ? "0 20px 50px rgba(232,93,30,0.55), 0 0 0 1px rgba(255,255,255,0.15) inset"
+            : "0 10px 32px rgba(232,93,30,0.38), 0 0 0 1px rgba(255,255,255,0.1) inset",
         }}
-      />
-      {/* Radial glow on hover */}
-      <motion.div
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18), transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <span style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", gap: 10 }}>
-        Get Started Free
-        <motion.span
-          animate={{ x: hovered ? 5 : 0 }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          style={{ fontSize: 16 }}
+      >
+        {/* Shimmer */}
+        <motion.div
+          animate={hovered ? { x: ["-150%", "200%"] } : { x: "-150%" }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
+            transform: "skewX(-20deg)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Glow */}
+        <motion.div
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18), transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Text */}
+        <span
+          style={{
+            position: "relative",
+            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
         >
-          →
-        </motion.span>
-      </span>
-    </motion.button>
+          Upload CV here
+          <motion.span
+            animate={{ x: hovered ? 5 : 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            style={{ fontSize: 16 }}
+          >
+            →
+          </motion.span>
+        </span>
+      </motion.button>
+    </Link>
   );
 }
 
@@ -390,13 +404,13 @@ export default function Hero() {
         value="2.4k+"
         label="Resumes scored today"
         delay={2.0}
-        className="absolute left-6 top-[38%] hidden xl:flex z-20"
+        className="absolute left-6 top-[38%] hidden lg:flex z-20"
       />
       <FloatingChip
         value="91%"
         label="Avg. ATS pass rate"
         delay={2.2}
-        className="absolute left-6 top-[52%] hidden xl:flex z-20"
+        className="absolute left-6 top-[52%] hidden lg:flex z-20"
       />
 
       {/* Main content */}
@@ -514,7 +528,9 @@ export default function Hero() {
           style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}
         >
           <PremiumCTAButton />
-          <OutlineButton>See how it works</OutlineButton>
+          <Link href="/#how-it-works">
+  <OutlineButton>See how it works</OutlineButton>
+</Link>
         </motion.div>
 
         {/* Social proof */}

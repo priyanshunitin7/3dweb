@@ -1,72 +1,158 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
+import Link from "next/link";
 
 export default function CTA() {
-  return (
-    <section className="py-24 md:py-40 bg-transparent relative overflow-hidden flex items-center justify-center min-h-[70vh]">
-      
-      <div className="max-w-5xl mx-auto px-6 relative z-10 text-center perspective-[1000px] w-full">
-        <motion.div
-           initial={{ opacity: 0, rotateX: 20, y: 100, scale: 0.9 }}
-           whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
-           viewport={{ once: true, margin: "-100px" }}
-           transition={{ duration: 1, type: "spring", bounce: 0.3 }}
-           className="bg-black/40 border border-white/10 rounded-[3rem] p-12 md:p-24 backdrop-blur-3xl shadow-[0_40px_100px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.1)] relative overflow-hidden"
-        >
-          {/* Inner Highlight Reflection */}
-          <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
-          
-          <h2 className="text-4xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500 tracking-tight mb-8">
-            Unlock your <br className="hidden md:block"/> career potential.
-          </h2>
-          
-          <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto font-medium mb-12">
-            Join thousands of professionals landing interviews faster with AI-optimized resumes.
-          </p>
-          
-          <motion.div
-            style={{ perspective: "1000px" }}
-            className="mt-6"
-          >
-            <motion.button
-              onClick={() => {/* route */}}
-              whileHover={{ 
-                scale: 1.05, 
-                rotateX: 12,
-                boxShadow: "0 30px 60px rgba(0,0,0,0.8), inset 0 2px 2px rgba(255,255,255,0.7), inset 0 -4px 12px rgba(0,0,0,0.9)"
-              }}
-              whileTap={{ 
-                scale: 0.95, 
-                rotateX: 0,
-                boxShadow: "0 5px 10px rgba(0,0,0,0.8), inset 0 2px 4px rgba(0,0,0,0.8)"
-              }}
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="group relative px-10 py-5 text-sm font-bold tracking-widest uppercase text-white
-                bg-gradient-to-b from-white/20 to-white/5 
-                border border-white/20 rounded-full
-                shadow-[0_15px_30px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.5),inset_0_-2px_6px_rgba(0,0,0,0.8)]
-                backdrop-blur-2xl
-                overflow-hidden"
-            >
-              <span className="relative z-10 flex items-center gap-3 drop-shadow-lg text-white">
-                Get started
-                <span className="group-hover:translate-x-1 transition-transform duration-300">
-                  →
-                </span>
-              </span>
+  const textControls = useAnimation();
 
-              {/* Shine Sweep Effect */}
-              <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out pointer-events-none">
-                <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
-              </div>
-            </motion.button>
+  useEffect(() => {
+    textControls.start((i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.055 + 0.35, // ✅ exact hero timing
+        duration: 0.9,
+        ease: [0.2, 0.65, 0.3, 0.9],
+      },
+    }));
+  }, [textControls]);
+
+  const words = ["Unlock", "your", "career", "potential."];
+
+  return (
+    <section
+      className="py-24 md:py-40 relative overflow-hidden flex items-center justify-center min-h-[70vh]"
+      style={{
+        background:
+          "linear-gradient(150deg, #ffffff 0%, #fff8f4 45%, #fff2e8 100%)",
+      }}
+    >
+      <div className="max-w-5xl mx-auto px-6 relative z-10 text-center w-full">
+        
+        <motion.div
+          initial={{ opacity: 0, y: 80, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] }}
+          className="rounded-[2.5rem] p-12 md:p-20 relative overflow-hidden backdrop-blur-xl"
+          style={{
+            background: "rgba(255,255,255,0.88)",
+            border: "1px solid rgba(26,31,60,0.12)",
+            boxShadow: "0 25px 80px rgba(0,0,0,0.08)",
+          }}
+        >
+          {/* Ambient glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(232,93,30,0.14), transparent 65%)",
+            }}
+          />
+
+          {/* HERO STYLE HEADLINE */}
+          <h2
+            className="font-black tracking-tighter leading-[1.06] mb-6"
+            style={{
+              fontSize: "clamp(2.6rem, 5.5vw, 4.5rem)",
+            }}
+          >
+            {words.map((word, wi) => (
+              <span key={wi} style={{ display: "inline-block", marginRight: 10 }}>
+                {word.split("").map((char, ci) => (
+                  <motion.span
+                    key={ci}
+                    custom={wi * 10 + ci}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={textControls}
+                    style={{
+                      display: "inline-block",
+                      ...(wi >= 2 // "career potential."
+                        ? {
+                            background:
+                              "linear-gradient(135deg, #e85d1e 0%, #ff9a5c 50%, #f5a623 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                          }
+                        : {
+                            color: "#1a1f3c",
+                          }),
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </h2>
+
+          {/* Subtext */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.7 }}
+            className="text-lg md:text-xl max-w-2xl mx-auto font-medium mb-10"
+            style={{ color: "#5a6080" }}
+          >
+            Join thousands of professionals landing interviews faster with AI-optimized resumes.
+          </motion.p>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3 }}
+          >
+            <Link href="/analyze">
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  y: -3,
+                  boxShadow:
+                    "0 20px 50px rgba(232,93,30,0.5), 0 0 0 1px rgba(255,255,255,0.2) inset",
+                }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="group relative px-10 py-4 text-sm font-bold tracking-widest uppercase rounded-full overflow-hidden"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #e85d1e 0%, #ff7c3a 60%, #f5a623 100%)",
+                  color: "#fff",
+                }}
+              >
+                {/* Shine */}
+                <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out pointer-events-none">
+                  <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
+                </div>
+
+                <span className="relative z-10 flex items-center gap-2 justify-center">
+                  Get started
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </motion.button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-white/5 blur-[150px] rounded-full pointer-events-none flex-shrink-0" />
+      {/* Bottom glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "-10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 700,
+          height: 400,
+          background:
+            "radial-gradient(circle, rgba(232,93,30,0.18), transparent 70%)",
+          borderRadius: "50%",
+        }}
+      />
     </section>
   );
 }
