@@ -25,3 +25,9 @@ body {
     @apply bg-white/5 backdrop-blur-md border border-white/10;
   }
 }
+/* ── Force hide chips on mobile ── */
+@media (max-width: 1023px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

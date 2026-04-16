@@ -401,17 +401,18 @@ export default function Hero() {
 
       {/* Left floating chips */}
       <FloatingChip
-        value="2.4k+"
-        label="Resumes scored today"
-        delay={2.0}
-        className="absolute left-6 top-[38%] hidden lg:flex z-20"
-      />
-      <FloatingChip
-        value="91%"
-        label="Avg. ATS pass rate"
-        delay={2.2}
-        className="absolute left-6 top-[52%] hidden lg:flex z-20"
-      />
+  value="2.4k+"
+  label="Resumes scored today"
+  delay={2.0}
+  className="absolute left-6 top-[38%] z-20 hide-on-mobile"
+/>
+
+<FloatingChip
+  value="91%"
+  label="Avg. ATS pass rate"
+  delay={2.2}
+  className="absolute left-6 top-[52%] z-20 hide-on-mobile"
+/>
 
       {/* Main content */}
       <div className="relative z-20 flex h-full flex-col items-center justify-center text-center px-6">
@@ -623,6 +624,7 @@ export default function Hero() {
           50% { opacity: 0.45; transform: scale(0.8); }
         }
       `}</style>
+      
     </section>
   );
 }

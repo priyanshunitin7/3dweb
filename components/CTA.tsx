@@ -153,6 +153,15 @@ export default function CTA() {
           borderRadius: "50%",
         }}
       />
+      {/* Smooth transition to footer */}
+<div
+  className="absolute bottom-0 left-0 w-full pointer-events-none"
+  style={{
+    height: 200,
+    background:
+      "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff2e8 50%, #ffffff 100%)",
+  }}
+/>
     </section>
   );
 }
