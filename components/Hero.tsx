@@ -254,10 +254,17 @@ function PremiumCTAButton() {
 }
 
 // ─── Ghost / Outline secondary button ────────────────────────────────────────
-function OutlineButton({ children }: { children: React.ReactNode }) {
+function OutlineButton({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.button
+      onClick={onClick}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       whileHover={{ scale: 1.02, y: -2 }}
@@ -319,6 +326,20 @@ function FloatingChip({
 export default function Hero() {
   const textControls = useAnimation();
   const buttonControls = useAnimation();
+  const [showVideo, setShowVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const timer = setTimeout(() => {
+      setShowControls(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [isPlaying]);
 
   useEffect(() => {
     textControls.start((i) => ({
@@ -529,9 +550,9 @@ export default function Hero() {
           style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}
         >
           <PremiumCTAButton />
-          <Link href="/#how-it-works">
-  <OutlineButton>See how it works</OutlineButton>
-</Link>
+          <OutlineButton onClick={() => setShowVideo(true)}>
+  See how it works
+</OutlineButton>
         </motion.div>
 
         {/* Social proof */}
@@ -624,6 +645,151 @@ export default function Hero() {
           50% { opacity: 0.45; transform: scale(0.8); }
         }
       `}</style>
+  {/* VIDEO MODAL */}
+
+    {showVideo && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.55)",
+      backdropFilter: "blur(12px)",
+      zIndex: 999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+    }}
+    onClick={() => setShowVideo(false)}
+  >
+    <motion.div
+      initial={{ scale: 0.85, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+
+      
+      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      onMouseMove={() => {
+    setShowControls(true);
+
+    if (isPlaying) {
+      clearTimeout((window as any)._controlsTimer);
+
+      (window as any)._controlsTimer = setTimeout(() => {
+        setShowControls(false);
+      }, 1500);
+    }
+  }}
+      style={{
+        width: "100%",
+        maxWidth: "900px",
+        borderRadius: "20px",
+        overflow: "hidden",
+        background: "#000",
+        boxShadow: "0 30px 100px rgba(0,0,0,0.5)",
+        position: "relative",
+      }}
+      onClick={(e) => {
+  e.stopPropagation();
+
+  setShowControls((prev) => !prev);
+
+  if (isPlaying) {
+    clearTimeout((window as any)._controlsTimer);
+
+    (window as any)._controlsTimer = setTimeout(() => {
+      setShowControls(false);
+    }, 1500);
+  }
+}}
+    >
+      {/* Close button */}
+      <motion.button
+  onClick={() => {
+    setShowVideo(false);
+    setIsPlaying(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }}
+  whileHover={{ scale: 1.1, rotate: 90 }}
+  whileTap={{ scale: 0.9 }}
+  style={{
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 20,
+    background: "rgba(0,0,0,0.55)",
+    backdropFilter: "blur(8px)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "50%",
+    width: 38,
+    height: 38,
+    color: "#fff",
+    cursor: "pointer",
+    fontSize: 14,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }}
+>
+  ✕
+</motion.button>
+
+      {/* ▶ Custom Play/Pause Button */}
+      <button
+  onClick={() => {
+    if (!videoRef.current) return;
+
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  }}
+  style={{
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: `translate(-50%, -50%) scale(${showControls ? 1 : 0.9})`,
+    zIndex: 10,
+    background: "rgba(0,0,0,0.6)",
+    border: "none",
+    borderRadius: "50%",
+    width: 70,
+    height: 70,
+    color: "#fff",
+    fontSize: 22,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    opacity: showControls || !isPlaying ? 1 : 0,
+    transition: "opacity 0.3s ease, transform 0.3s ease",
+  }}
+>
+  {isPlaying ? "❚❚" : "▶"}
+</button>
+
+      {/* VIDEO */}
+      <video
+        src="/demo.mp4" 
+        muted
+        ref={videoRef}
+        style={{
+          width: "100%",
+          display: "block",
+        }}
+      />
+    </motion.div>
+  </motion.div>
+)}
       
     </section>
   );
