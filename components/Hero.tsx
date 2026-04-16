@@ -5,6 +5,10 @@ import { motion, useAnimation} from "framer-motion";
 import * as THREE from "three";
 import Link from "next/link";
 
+type WindowWithTimer = typeof window & {
+  _controlsTimer?: ReturnType<typeof setTimeout>;
+};
+
 // ─── Three.js woven particle canvas (light-theme, brand colours) ─────────────
 function WovenCanvas() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -162,8 +166,12 @@ function WovenCanvas() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("wheel", handleScroll, { capture: true });
       window.removeEventListener("touchmove", handleScroll, { capture: true });
-      if (mountRef.current?.contains(renderer.domElement))
-        mountRef.current.removeChild(renderer.domElement);
+
+      const mount = mountRef.current;
+
+      if (mount && mount.contains(renderer.domElement)) {
+      mount.removeChild(renderer.domElement);
+  }
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -675,12 +683,16 @@ export default function Hero() {
     setShowControls(true);
 
     if (isPlaying) {
-      clearTimeout((window as any)._controlsTimer);
+  const w = window as WindowWithTimer;
 
-      (window as any)._controlsTimer = setTimeout(() => {
-        setShowControls(false);
-      }, 1500);
-    }
+  if (w._controlsTimer) {
+    clearTimeout(w._controlsTimer);
+  }
+
+  w._controlsTimer = setTimeout(() => {
+    setShowControls(false);
+  }, 1500);
+}
   }}
       style={{
         width: "100%",
@@ -697,12 +709,16 @@ export default function Hero() {
   setShowControls((prev) => !prev);
 
   if (isPlaying) {
-    clearTimeout((window as any)._controlsTimer);
+  const w = window as WindowWithTimer;
 
-    (window as any)._controlsTimer = setTimeout(() => {
-      setShowControls(false);
-    }, 1500);
+  if (w._controlsTimer) {
+    clearTimeout(w._controlsTimer);
   }
+
+  w._controlsTimer = setTimeout(() => {
+    setShowControls(false);
+  }, 1500);
+}
 }}
     >
       {/* Close button */}
