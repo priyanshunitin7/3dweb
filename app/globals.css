@@ -24,6 +24,37 @@ body {
   .glass {
     @apply bg-white/5 backdrop-blur-md border border-white/10;
   }
+/* ── Pulse animation ── */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.8);
+    }
+  }
+
+  /* ── Features responsive fix ── */
+  @media (max-width: 860px) {
+    .feat-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .feat-stats {
+      flex-direction: column !important;
+    }
+
+    .feat-stats > div {
+      border-right: none !important;
+      border-bottom: 1px solid rgba(26,31,60,0.07);
+    }
+
+    .feat-stats > div:last-child {
+      border-bottom: none !important;
+    }
+  }
 }
 /* ── Force hide chips on mobile ── */
 @media (max-width: 1023px) {
