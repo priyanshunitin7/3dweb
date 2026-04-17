@@ -12,7 +12,7 @@ export default function CTA() {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.055 + 0.35, // ✅ exact hero timing
+        delay: i * 0.055 + 0.35,
         duration: 0.9,
         ease: [0.2, 0.65, 0.3, 0.9],
       },
@@ -24,11 +24,29 @@ export default function CTA() {
   return (
     <section
       className="py-24 md:py-40 relative overflow-hidden flex items-center justify-center min-h-[70vh]"
-      style={{
-        background:
-          "linear-gradient(150deg, #ffffff 0%, #fff8f4 45%, #fff2e8 100%)",
-      }}
     >
+      {/* ✅ LIGHT OVERLAY (same system as other sections) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(150deg, rgba(255,255,255,0.22) 0%, rgba(255,248,244,0.18) 50%, rgba(255,242,232,0.22) 100%)",
+          }}
+        />
+
+        {/* ✅ Contrast for particles */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.06), transparent 70%)",
+          }}
+        />
+      </div>
+
       <div className="max-w-5xl mx-auto px-6 relative z-10 text-center w-full">
         
         <motion.div
@@ -36,9 +54,9 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] }}
-          className="rounded-[2.5rem] p-12 md:p-20 relative overflow-hidden backdrop-blur-xl"
+          className="rounded-[2.5rem] p-12 md:p-20 relative overflow-hidden"
           style={{
-            background: "rgba(255,255,255,0.88)",
+            background: "rgba(255,255,255,0.88)", // ✅ no blur fog
             border: "1px solid rgba(26,31,60,0.12)",
             boxShadow: "0 25px 80px rgba(0,0,0,0.08)",
           }}
@@ -52,7 +70,7 @@ export default function CTA() {
             }}
           />
 
-          {/* HERO STYLE HEADLINE */}
+          {/* HEADLINE */}
           <h2
             className="font-black tracking-tighter leading-[1.06] mb-6"
             style={{
@@ -69,15 +87,16 @@ export default function CTA() {
                     animate={textControls}
                     style={{
                       display: "inline-block",
-                      ...(wi >= 2 // "career potential."
+                      ...(wi >= 2
                         ? {
                             background:
                               "linear-gradient(135deg, #e85d1e 0%, #ff9a5c 50%, #f5a623 100%)",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
+                            textShadow: "0 2px 6px rgba(0,0,0,0.08)",
                           }
                         : {
-                            color: "#1a1f3c",
+                            color: "#0f172a", // ✅ sharper text
                           }),
                     }}
                   >
@@ -88,18 +107,18 @@ export default function CTA() {
             ))}
           </h2>
 
-          {/* Subtext */}
+          {/* SUBTEXT */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.7 }}
             className="text-lg md:text-xl max-w-2xl mx-auto font-medium mb-10"
-            style={{ color: "#5a6080" }}
+            style={{ color: "#475569" }}
           >
             Join thousands of professionals landing interviews faster with AI-optimized resumes.
           </motion.p>
 
-          {/* CTA Button */}
+          {/* CTA BUTTON */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -153,15 +172,16 @@ export default function CTA() {
           borderRadius: "50%",
         }}
       />
+
       {/* Smooth transition to footer */}
-<div
-  className="absolute bottom-0 left-0 w-full pointer-events-none"
-  style={{
-    height: 200,
-    background:
-      "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff2e8 50%, #ffffff 100%)",
-  }}
-/>
+      <div
+        className="absolute bottom-0 left-0 w-full pointer-events-none"
+        style={{
+          height: 200,
+          background:
+  "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,242,232,0.6) 70%, rgba(255,255,255,0.95) 100%)",
+        }}
+      />
     </section>
   );
 }

@@ -2,140 +2,13 @@
 
 import { motion, useAnimation } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
 
 
 // ─── Types ────────────────────────────────────────────────────────
 type Stat = { label: string; end: number; suffix: string; decimal?: number; dur: number };
 
 // ─── Ambient Three.js particle field (softer than hero) ──────────
-function AmbientCanvas() {
-  const mountRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!mountRef.current) return;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-    camera.position.z = 5;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    const isMobile = window.innerWidth < 768;
-
-    renderer.setPixelRatio(
-    isMobile
-    ? Math.min(window.devicePixelRatio, 1.2)
-    : Math.min(window.devicePixelRatio, 1.8)
-);
-
-    renderer.setClearColor(0x000000, 0);
-    mountRef.current.appendChild(renderer.domElement);
-
-    const resize = () => {
-      const w = mountRef.current?.offsetWidth ?? window.innerWidth;
-      const h = mountRef.current?.offsetHeight ?? window.innerHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
-    resize();
-
-    const isLowPower = navigator.hardwareConcurrency <= 4;
-
-const COUNT = isMobile
-  ? (isLowPower ? 2500 : 3500)
-  : (isLowPower ? 6000 : 9000);
-    const pos = new Float32Array(COUNT * 3);
-    const col = new Float32Array(COUNT * 3);
-
-    const palette = [
-      new THREE.Color("#e85d1e"),
-      new THREE.Color("#ff9a5c"),
-      new THREE.Color("#f5a623"),
-      new THREE.Color("#1a1f3c"),
-      new THREE.Color("#3b6bda"),
-      new THREE.Color("#ffd166"),
-      new THREE.Color("#d4450f"),
-    ];
-
-    for (let i = 0; i < COUNT; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = 2.5 + Math.random() * 2.5;
-      pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      pos[i * 3 + 2] = r * Math.cos(phi);
-      const c = palette[Math.floor(Math.random() * palette.length)];
-      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute("color",    new THREE.BufferAttribute(col, 3));
-
-    const mat = new THREE.PointsMaterial({
-      size: 0.025,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.55,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-
-    const pts = new THREE.Points(geo, mat);
-    scene.add(pts);
-
-    const mouse = { x: 0, y: 0 };
-    const onMove = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    window.addEventListener("mousemove", onMove);
-
-    const clock = new THREE.Clock();
-    let rafId: number;
-let isVisible = true;
-
-const observer = new IntersectionObserver(
-  ([entry]) => {
-    isVisible = entry.isIntersecting;
-  },
-  { threshold: 0.1 }
-);
-
-if (mountRef.current) observer.observe(mountRef.current);
-
-const tick = () => {
-  rafId = requestAnimationFrame(tick);
-
-  if (!isVisible) return; 
-
-  const t = clock.getElapsedTime();
-  pts.rotation.y = t * 0.012 + mouse.x * 0.03;
-  pts.rotation.x = mouse.y * 0.02;
-
-  renderer.render(scene, camera);
-};
-
-tick();
-
-    window.addEventListener("resize", resize);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", resize);
-      observer.disconnect();
-      const mount = mountRef.current;
-      if (mount && mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement);
-      }
-      geo.dispose(); mat.dispose(); renderer.dispose();
-    };
-  }, []);
-
-  return <div ref={mountRef} className="absolute inset-0 z-0 pointer-events-none" />;
-}
 
 // ─── Animated counter hook ────────────────────────────────────────
 function useCounter(end: number, dur: number, decimal?: number, active = false) {
@@ -447,14 +320,15 @@ export default function Features() {
   return (
     <section
       id="features"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden z-10"
       style={{
-        background: "linear-gradient(150deg, #ffffff 0%, #fff8f4 50%, #fff2e8 100%)",
+        background: "linear-gradient(150deg, rgba(255,255,255,0.35) 0%, rgba(255,248,244,0.35) 50%, rgba(255,242,232,0.35) 100%)",
         minHeight: "100vh",
       }}
     >
+      
       {/* Three.js ambient field */}
-      <AmbientCanvas />
+    
 
       {/* Ambient CSS glows */}
       <div className="absolute pointer-events-none" style={{ top: "-8%", right: "-4%", width: 560, height: 560, background: "radial-gradient(ellipse at center,rgba(232,93,30,0.09) 0%,transparent 65%)", borderRadius: "50%" }} />

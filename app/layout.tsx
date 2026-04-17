@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import AmbientBackground from "@/components/AmbientBackground";
 
 
 const inter = Inter({
@@ -26,8 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}>
-        {children}
-      </body>
+
+  {/* Background */}
+  <AmbientBackground />
+
+  {/* Content */}
+  <div className="relative z-10">
+    {children}
+  </div>
+
+</body>
     </html>
   );
 }

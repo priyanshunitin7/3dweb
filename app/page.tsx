@@ -8,12 +8,12 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white/30 overflow-hidden relative">
+<main className="min-h-screen text-black selection:bg-black/20 overflow-hidden relative">
       <Navbar />
 
       {/* Single shared dark container — hero + all sections share one bg */}
       <div className="relative w-full">
-        <FloatingBackground />
+        
         <Hero />
         <Features />
         <HowItWorks />

@@ -50,11 +50,31 @@ export default function HowItWorks() {
       id="how-it-works"
       className="py-40 relative overflow-hidden"
       style={{
-        background:
-          "linear-gradient(150deg, #ffffff 0%, #fff8f4 50%, #fff2e8 100%)",
         borderTop: "1px solid rgba(26,31,60,0.08)",
       }}
     >
+      {/* ✅ LIGHT OVERLAY (lets particles show) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(150deg, rgba(255,255,255,0.22) 0%, rgba(255,248,244,0.18) 50%, rgba(255,242,232,0.22) 100%)",
+          }}
+        />
+
+        {/* ✅ Contrast layer for particles */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.06), transparent 70%)",
+          }}
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row gap-20 items-center">
           
@@ -66,7 +86,7 @@ export default function HowItWorks() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
             >
-              {/* HERO STYLE HEADING */}
+              {/* HEADING */}
               <h2
                 className="font-black tracking-tighter leading-[1.06] mb-8"
                 style={{
@@ -83,15 +103,16 @@ export default function HowItWorks() {
                         animate={textControls}
                         style={{
                           display: "inline-block",
-                          ...(wi === 2 // "success."
+                          ...(wi === 2
                             ? {
                                 background:
                                   "linear-gradient(135deg, #e85d1e 0%, #ff9a5c 50%, #f5a623 100%)",
                                 WebkitBackgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
+                                textShadow: "0 2px 6px rgba(0,0,0,0.08)",
                               }
                             : {
-                                color: "#1a1f3c",
+                                color: "#0f172a", // darker for clarity
                               }),
                         }}
                       >
@@ -102,10 +123,10 @@ export default function HowItWorks() {
                 ))}
               </h2>
 
-              {/* Subtext */}
+              {/* SUBTEXT */}
               <p
                 className="text-lg md:text-xl max-w-md font-medium leading-relaxed mb-10"
-                style={{ color: "#5a6080" }}
+                style={{ color: "#475569" }}
               >
                 In just three steps, transform your generic resume into a highly
                 targeted application scientifically designed to outsmart ATS
@@ -142,24 +163,24 @@ export default function HowItWorks() {
                     boxShadow:
                       "0 20px 50px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6)",
                   }}
-                  className="flex gap-6 relative group p-6 rounded-3xl backdrop-blur-xl"
+                  className="flex gap-6 relative group p-6 rounded-3xl"
                   style={{
-                    background: "rgba(255,255,255,0.85)",
+                    background: "rgba(255,255,255,0.85)", // ✅ no blur fog
                     border: "1px solid rgba(26,31,60,0.12)",
                   }}
                 >
-                  {/* Icon */}
+                  {/* ICON */}
                   <div
                     className="flex-shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center"
                     style={{
-                      background: "rgba(255,255,255,0.6)",
+                      background: "rgba(255,255,255,0.7)",
                       border: "1px solid rgba(26,31,60,0.1)",
                     }}
                   >
                     {step.icon}
                   </div>
 
-                  {/* Text */}
+                  {/* TEXT */}
                   <div className="flex-1">
                     <div className="flex items-center gap-4 mb-2">
                       <span
@@ -171,7 +192,7 @@ export default function HowItWorks() {
 
                       <h3
                         className="text-2xl font-bold tracking-tight"
-                        style={{ color: "#1a1f3c" }}
+                        style={{ color: "#0f172a" }}
                       >
                         {step.title}
                       </h3>
@@ -179,7 +200,7 @@ export default function HowItWorks() {
 
                     <p
                       className="leading-relaxed font-medium"
-                      style={{ color: "#5a6080" }}
+                      style={{ color: "#475569" }}
                     >
                       {step.description}
                     </p>
@@ -191,7 +212,7 @@ export default function HowItWorks() {
         </div>
       </div>
 
-      {/* Ambient glow */}
+      {/* AMBIENT GLOWS */}
       <div
         className="absolute pointer-events-none"
         style={{

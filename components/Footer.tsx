@@ -9,11 +9,20 @@ export default function Footer() {
       className="relative overflow-hidden"
       style={{
         background:
-          "linear-gradient(150deg, #ffffff 0%, #fff8f4 50%, #fff2e8 100%)",
-        
+          "#ffffff",
       }}
     >
-      {/* Ambient glow (same as other sections) */}
+      {/* ✅ TOP TRANSITION (smooth blend from CTA) */}
+      <div
+        className="absolute top-0 left-0 w-full pointer-events-none"
+        style={{
+          height: 160,
+          background:
+            "linear-gradient(to bottom, rgba(255,242,232,0.5), rgba(255,255,255,0))",
+        }}
+      />
+
+      {/* ✅ Ambient glow (very subtle) */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -22,7 +31,7 @@ export default function Footer() {
           width: 500,
           height: 500,
           background:
-            "radial-gradient(circle, rgba(232,93,30,0.10), transparent 70%)",
+            "radial-gradient(circle, rgba(232,93,30,0.08), transparent 70%)",
           borderRadius: "50%",
         }}
       />
@@ -35,12 +44,20 @@ export default function Footer() {
           width: 400,
           height: 400,
           background:
-            "radial-gradient(circle, rgba(26,31,60,0.06), transparent 70%)",
+            "radial-gradient(circle, rgba(26,31,60,0.05), transparent 70%)",
           borderRadius: "50%",
         }}
       />
 
-      {/* Content */}
+      {/* ✅ Soft glass overlay (NO blur fog) */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backdropFilter: "blur(6px)", // very subtle
+        }}
+      />
+
+      {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 relative z-10">
         
         {/* Top Row */}
@@ -57,7 +74,7 @@ export default function Footer() {
             />
           </Link>
 
-          {/* Links (minimal) */}
+          {/* Links */}
           <div className="flex items-center gap-8 text-sm font-medium">
             <Link
               href="/#features"
@@ -91,7 +108,7 @@ export default function Footer() {
             © {new Date().getFullYear()} CVDekho. All rights reserved.
           </p>
 
-          {/* Optional micro text */}
+          {/* Micro text */}
           <p className="text-[#8a8fa8] text-xs">
             Built to help you land more interviews.
           </p>
