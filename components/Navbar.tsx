@@ -4,6 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 // ─── Logo image (your actual CVDekho logo) ────────────────────────────────────
 const LOGO_SRC = "/logo.png"; // Place your logo PNG in /public/logo.png
@@ -269,25 +275,35 @@ function MobileMenu({
                 gap: 10,
               }}
             >
-              <Link
-                href="/sign-in"
-                onClick={onClose}
-                style={{
-                  display: "block",
-                  textAlign: "center",
-                  padding: "11px 0",
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: "#1a1f3c",
-                  textDecoration: "none",
-                  border: "1.5px solid rgba(26,31,60,0.18)",
-                  borderRadius: 99,
-                  letterSpacing: "0.04em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Sign In
-              </Link>
+              <SignedOut>
+  <SignInButton mode="modal">
+    <button
+      onClick={onClose}
+      style={{
+        display: "block",
+        width: "100%",
+        textAlign: "center",
+        padding: "11px 0",
+        fontSize: 13,
+        fontWeight: 700,
+        color: "#1a1f3c",
+        border: "1.5px solid rgba(26,31,60,0.18)",
+        borderRadius: 99,
+        letterSpacing: "0.04em",
+        textTransform: "uppercase",
+        background: "transparent",
+      }}
+    >
+      Sign In
+    </button>
+  </SignInButton>
+</SignedOut>
+
+<SignedIn>
+  <div className="flex justify-center" onClick={onClose}>
+    <UserButton afterSignOutUrl="/" />
+  </div>
+</SignedIn>
               <Link
                 href="/analyze"
                 onClick={onClose}
@@ -552,44 +568,37 @@ export default function Navbar() {
                 </div>
 
                 {/* Sign In (desktop only) */}
-                <div className="hidden sm:block">
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <Link
-                      href="/sign-in"
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "8px 18px",
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "#1a1f3c",
-                        textDecoration: "none",
-                        border: "1.5px solid rgba(26,31,60,0.18)",
-                        borderRadius: 99,
-                        letterSpacing: "0.04em",
-                        transition: "border-color 0.2s, background 0.2s",
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor =
-                          "rgba(26,31,60,0.4)";
-                        (e.currentTarget as HTMLElement).style.background =
-                          "rgba(26,31,60,0.04)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor =
-                          "rgba(26,31,60,0.18)";
-                        (e.currentTarget as HTMLElement).style.background =
-                          "transparent";
-                      }}
-                    >
-                      Sign In
-                    </Link>
-                  </motion.div>
-                </div>
+                {/* AUTH (desktop) */}
+<div className="hidden sm:block">
+  <SignedOut>
+    <SignInButton mode="modal">
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "8px 18px",
+          fontSize: 13,
+          fontWeight: 700,
+          color: "#1a1f3c",
+          border: "1.5px solid rgba(26,31,60,0.18)",
+          borderRadius: 99,
+          letterSpacing: "0.04em",
+          background: "transparent",
+          cursor: "pointer",
+        }}
+      >
+        Sign In
+      </motion.button>
+    </SignInButton>
+  </SignedOut>
+
+  <SignedIn>
+    <UserButton afterSignOutUrl="/" />
+  </SignedIn>
+</div>
 
                 {/* Premium CTA (desktop) */}
                 <div className="hidden sm:block">

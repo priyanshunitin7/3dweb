@@ -14,7 +14,8 @@ function WovenCanvas() {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    const mountNode = mountRef.current;
+if (!mountNode) return;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -29,8 +30,7 @@ function WovenCanvas() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
-    mountRef.current.appendChild(renderer.domElement);
-
+    mountNode.appendChild(renderer.domElement);
     const mouse = new THREE.Vector2(0, 0);
     const clock = new THREE.Clock();
 
@@ -97,7 +97,7 @@ function WovenCanvas() {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    let scrollTimer: ReturnType<typeof setTimeout>;
+    let scrollTimer: ReturnType<typeof setTimeout> | undefined;
     const handleScroll = () => {
       renderer.domElement.style.pointerEvents = "none";
       clearTimeout(scrollTimer);
@@ -161,17 +161,17 @@ function WovenCanvas() {
 
     return () => {
       cancelAnimationFrame(animId);
-      clearTimeout(scrollTimer);
+      if (scrollTimer) clearTimeout(scrollTimer);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("wheel", handleScroll, { capture: true });
       window.removeEventListener("touchmove", handleScroll, { capture: true });
 
-      const mount = mountRef.current;
+      
 
-      if (mount && mount.contains(renderer.domElement)) {
-      mount.removeChild(renderer.domElement);
-  }
+      if (mountNode.contains(renderer.domElement)) {
+  mountNode.removeChild(renderer.domElement);
+}
       geometry.dispose();
       material.dispose();
       renderer.dispose();

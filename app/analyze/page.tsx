@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 // ─── Brand tokens (exact match with Hero.tsx) ─────────────────────────────────
 const B = {
@@ -294,6 +296,19 @@ function DropOrbit({ active }: { active: boolean }) {
 type Stage = "idle" | "ready" | "analyzing" | "results";
 
 export default function AnalyzePage() {
+    // ✅ ADD THIS BLOCK HERE
+  const { isLoaded, isSignedIn } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in");
+    }
+  }, [isLoaded, isSignedIn, router]);
+
+  if (!isLoaded) return null;
+  if (!isSignedIn) return null;
+
   const [stage, setStage]       = useState<Stage>("idle");
   const [fileName, setFileName] = useState("");
   const [role, setRole]         = useState("");
@@ -319,7 +334,10 @@ export default function AnalyzePage() {
   }, [handleFile]);
 
   const handleAnalyze = () => {
-    if (!role.trim()) return alert("Please enter your target role.");
+    if (!role.trim()) {
+  console.warn("Role is required");
+  return;
+}
     setStage("analyzing");
     setTimeout(() => setStage("results"), 3000);
   };
@@ -545,8 +563,19 @@ export default function AnalyzePage() {
 
                   {/* Drop zone */}
                   <div
-                    onDragEnter={e => { e.preventDefault(); setDragCount(c => c + 1); }}
-                    onDragLeave={() => setDragCount(c => Math.max(0, c - 1))}
+                    onDragEnter={e => {
+  e.preventDefault();
+  setDragging(true);
+  setDragCount(c => c + 1);
+}}
+
+onDragLeave={() => {
+  setDragCount(c => {
+    const newCount = Math.max(0, c - 1);
+    if (newCount === 0) setDragging(false);
+    return newCount;
+  });
+}}
                     onDragOver={e => e.preventDefault()}
                     onDrop={handleDrop}
                     onClick={() => stage !== "ready" && fileInputRef.current?.click()}

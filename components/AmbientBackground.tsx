@@ -7,7 +7,8 @@ export default function AmbientBackground({ opacity = 1 }: { opacity?: number })
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    const mountNode = mountRef.current;
+if (!mountNode) return;
 
     // ── Scene & Camera ─────────────────────────────────────────────
     const scene = new THREE.Scene();
@@ -30,7 +31,7 @@ export default function AmbientBackground({ opacity = 1 }: { opacity?: number })
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // transparent
 
-    mountRef.current.appendChild(renderer.domElement);
+    mountNode.appendChild(renderer.domElement);
 
     // ── Resize ─────────────────────────────────────────────────────
     const handleResize = () => {
@@ -163,9 +164,9 @@ export default function AmbientBackground({ opacity = 1 }: { opacity?: number })
       window.removeEventListener("mousemove", handleMouse);
       window.removeEventListener("scroll", handleScroll);
 
-      if (mountRef.current?.contains(renderer.domElement)) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
+      if (mountNode.contains(renderer.domElement)) {
+      mountNode.removeChild(renderer.domElement);
+    }
 
       geoLarge.dispose();
       geoSmall.dispose();
