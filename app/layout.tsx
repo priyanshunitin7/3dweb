@@ -1,7 +1,9 @@
+
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import AmbientBackground from "@/components/AmbientBackground";
+import Providers from "@/components/Providers";
 
 
 const inter = Inter({
@@ -25,8 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}>
+
+        <Providers> {/* ✅ THIS is the fix */}
+          <div className="relative">
 
   {/* Background */}
   <AmbientBackground />
@@ -35,8 +41,10 @@ export default function RootLayout({
   <div className="relative z-10">
     {children}
   </div>
-
+  </div>
+        </Providers>
 </body>
     </html>
+    
   );
 }
