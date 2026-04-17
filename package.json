@@ -10,11 +10,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.39.2",
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
     "@splinetool/react-spline": "^2.2.6",
     "@splinetool/runtime": "^1.12.81",
-    "@studio-freight/react-lenis": "^0.0.47",
     "@types/three": "^0.183.1",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
