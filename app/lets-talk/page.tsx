@@ -1,9 +1,10 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
+
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import Link from "next/link";
 
 // ─── Floating ambient chip ────────────────────────────────────────
 function FloatingChip({
@@ -446,7 +447,45 @@ if (botField) {
         position: "relative",
       }}
     >
-      <Navbar />
+      {/* Back to Home */}
+<div
+  style={{
+    position: "absolute",
+    top: 24,
+    left: 24,
+    zIndex: 20,
+  }}
+>
+  <Link
+    href="/"
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      padding: "10px 18px",
+      borderRadius: 999,
+      background: "rgba(255,255,255,0.8)",
+      backdropFilter: "blur(10px)",
+      border: "1px solid rgba(232,93,30,0.2)",
+      color: "#1a1f3c",
+      fontSize: 13,
+      fontWeight: 700,
+      textDecoration: "none",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+      transition: "all 0.2s ease",
+    }}
+    onMouseEnter={(e) => {
+      (e.currentTarget as HTMLAnchorElement).style.transform =
+        "translateY(-2px) scale(1.03)";
+    }}
+    onMouseLeave={(e) => {
+      (e.currentTarget as HTMLAnchorElement).style.transform = "none";
+    }}
+  >
+    ← Back to Home
+  </Link>
+</div>
+    
 
       {/* Ambient glows */}
       <div style={{ position: "absolute", top: "-8%", right: "-4%", width: 500, height: 500, background: "radial-gradient(ellipse,rgba(232,93,30,0.09) 0%,transparent 65%)", borderRadius: "50%", pointerEvents: "none", zIndex: 1 }} />

@@ -88,6 +88,17 @@ export default function Footer() {
             >
               How it works
             </Link>
+            <Link
+
+    href="/lets-talk"
+
+    className="text-[#e85d1e] hover:text-[#ff7c3a] transition-colors font-semibold"
+
+  >
+
+    Let&apos;s Talk
+
+  </Link>
           </div>
         </div>
 
